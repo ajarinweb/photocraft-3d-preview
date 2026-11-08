@@ -25,12 +25,13 @@ jobs:
       uses: swatinem/rust-cache@v2
 
     - name: Compile WASM Plugin
+      env:
+        RUSTFLAGS: "-C link-arg=--strip-all" 
       run: cargo build --target wasm32-unknown-unknown --release
 
     - name: Prepare Assets
       run: |
         mkdir release-assets
-        # Menyalin biner .wasm yang dihasilkan dan mengganti namanya agar rapi
         cp target/wasm32-unknown-unknown/release/photocraft_3d_preview.wasm release-assets/photocraft_3d_preview.wasm
 
     - name: Create GitHub Release
