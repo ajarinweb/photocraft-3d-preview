@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>PhotoCraft 3D Preview Panel</title>
+    <style>
+        body { margin: 0; padding: 0; background: #222831; color: #eceff1; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+        #app-viewport { position: relative; width: 100vw; height: 100vh; }
+        #canvas3d { width: 100%; height: 100%; }
+        #axesIndicator { position: absolute; top: 15px; right: 15px; width: 80px; height: 80px; pointer-events: none; }
+        #ui-panel { position: absolute; bottom: 20px; left: 20px; background: rgba(34, 40, 49, 0.9); padding: 18px; border-radius: 10px; border: 1px solid #393e46; backdrop-filter: blur(8px); z-index: 5; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        .plugin-title { margin: 0 0 12px 0; font-size: 14px; color: #00adb5; font-weight: 600; letter-spacing: 0.8px; }
+        .btn-upload { background: #393e46; border: 1px solid #00adb5; color: #fff; padding: 8px 12px; border-radius: 5px; font-size: 11px; cursor: pointer; transition: all 0.3s; }
+        .btn-upload:hover { background: #00adb5; color: #222831; }
+        .status-container { display: flex; align-items: center; margin-top: 12px; font-size: 11px; color: #b0bec5; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff5252; margin-right: 6px; }
+        .dot.active { background: #00e676; box-shadow: 0 0 8px #00e676; }
+    </style>
+</head>
+<body>
+
+    <div id="app-viewport">
+        <div id="canvas3d"></div>
+        <div id="axesIndicator"></div>
+
+        <div id="ui-panel">
+            <div class="plugin-title">3D TEXTURE PREVIEW</div>
+            <input type="file" id="fileMesh" accept=".obj,.gltf,.glb" style="display: none;">
+            <button class="btn-upload" onclick="document.getElementById('fileMesh').click()">UNGGAH MODEL 3D</button>
+            <div class="status-container">
+                <div id="statusDot" class="dot"></div>
+                <span id="statusLabel">Menghubungkan Sandbox...</span>
+            </div>
+        </div>
+    </div>
+
+    <script id="photocraft-core-injection">
+    </script>
+</body>
+</html>
