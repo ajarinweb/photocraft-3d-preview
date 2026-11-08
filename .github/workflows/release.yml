@@ -21,12 +21,9 @@ jobs:
       with:
         targets: wasm32-unknown-unknown
 
-    - name: Rust Cache
-      uses: swatinem/rust-cache@v2
-
     - name: Compile WASM Plugin
       env:
-        RUSTFLAGS: "-C link-arg=--strip-all" 
+        RUSTFLAGS: "-C link-arg=--strip-all"
       run: cargo build --target wasm32-unknown-unknown --release
 
     - name: Prepare Assets
