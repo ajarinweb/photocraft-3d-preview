@@ -106,11 +106,14 @@ pub extern "C" fn on_plugin_tick() -> *mut u8 {
 }
 
 #[no_mangle]
-pub extern "C" fn pc_filter(canvas_width: i32, canvas_height: i32) -> *mut u8 {
+pub extern "C" fn pc_filter(buffer_ptr: *mut u8, canvas_width: i32, canvas_height: i32) -> *mut u8 {
+    let _ = buffer_ptr; 
+
     let init_json = format!(
         "{{\"action\": \"open_webview\", \"width\": {}, \"height\": {}}}",
         canvas_width, canvas_height
     );
     return_string_to_host(init_json)
 }
+
 
