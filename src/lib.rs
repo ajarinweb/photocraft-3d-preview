@@ -14,17 +14,36 @@ const OBJ_JS: &str = include_str!("../ui/libs/OBJLoader.js");
 const GLTF_JS: &str = include_str!("../ui/libs/GLTFLoader.js");
 const CONTROLLER_JS: &str = include_str!("../ui/view_controller.js");
 
+const PLUGIN_MANIFEST: &str = r#"{
+    "name": "3D Preview Panel",
+    "id": "photocraft.3d.preview",
+    "version": "1.0.3",
+    "menu_entry": "3D Preview"
+}"#;
+
 #[no_mangle]
-pub extern "C" fn allocate_memory(size: usize) -> *mut u8 {
+pub extern "C" fn pc_abi_version() -> i32 {
+    1 
+}
+
+#[no_mangle]
+pub extern "C" fn pc_manifest() -> i64 {
+    let ptr = PLUGIN_MANIFEST.as_ptr() as i64;
+    let len = PLUGIN_MANIFEST.len() as i64;
+    (len << 32) | ptr
+}
+
+#[no_mangle]
+pub extern "C" fn pc_alloc(size: usize) -> *mut u8 {
     let mut vec = Vec::with_capacity(size);
     let ptr = vec.as_mut_ptr();
-    std::mem::forget(vec); // Mencegah deallokasi otomatis oleh Rust garbage collector
+    std::mem::forget(vec);
     ptr
 }
 
 fn return_string_to_host(s: String) -> *mut u8 {
     let mut bytes = s.into_bytes();
-    bytes.push(0); // Tambahkan null-terminator di akhir string
+    bytes.push(0); 
     let ptr = bytes.as_mut_ptr();
     std::mem::forget(bytes);
     ptr
@@ -41,8 +60,7 @@ pub extern "C" fn initialize_plugin() {
 #[no_mangle]
 pub extern "C" fn get_plugin_ui(asset_type_ptr: *const u8) -> *mut u8 {
     let asset_type = unsafe {
-        std::fs::read_to_string(std::ffi::CStr::from_ptr(asset_type_ptr as *const i8).to_string_lossy().into_owned())
-            .unwrap_or_else(|_| String::from("html")) 
+        std::ffi::CStr::from_ptr(asset_type_ptr as *const i8).to_string_lossy().into_owned()
     };
 
     let response = match asset_type.as_str() {
