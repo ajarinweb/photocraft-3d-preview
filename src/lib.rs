@@ -17,7 +17,8 @@ const CONTROLLER_JS: &str = include_str!("../ui/view_controller.js");
 const PLUGIN_MANIFEST: &str = r#"{
     "name": "3D Preview Panel",
     "id": "photocraft.3d.preview",
-    "version": "1.0.3",
+    "version": "1.0.4",
+    "kind": "panel",
     "menu_entry": "3D Preview"
 }"#;
 
